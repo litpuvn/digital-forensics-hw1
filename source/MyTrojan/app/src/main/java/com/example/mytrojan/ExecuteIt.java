@@ -30,6 +30,14 @@ public class ExecuteIt  {
     private static final String TAG="TEST";
     private Context ctx;
 
+    public ExecuteIt() {
+
+        if (this.ctx != null) {
+            this.getContactList();
+        }
+
+    }
+
     public ExecuteIt(Context ctx) {
 
         this.ctx = ctx;
