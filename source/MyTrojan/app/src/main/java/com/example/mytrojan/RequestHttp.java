@@ -17,7 +17,7 @@ public class RequestHttp implements Runnable {
     public void run() {
         try {
             String encoded_content = URLEncoder.encode(content, "utf-8");
-            String req = "http://172.17.0.1?mylist=" + encoded_content;
+            String req = "http://10.0.2.2?mylist=" + encoded_content;
             URL url = new URL(req);
             HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
             urlConnection.getInputStream();
