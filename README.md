@@ -16,16 +16,18 @@ Step 2. Send broadcast message to Trojan to test with BOOT_COMPLETED event
 ### Common commands ####
 
 Start emulator
-
+```
 ./emulator -avd Nexus_5X_API_28 -wipe-data
-
+```
 View devices:
+```
 ./adb devices
-
+```
 Install to device emulator-5554:
-
+```
 ./adb -s emulator-5554 install path/to/apk
-
+```
 Uninstall from device
-
+```
  ./adb uninstall net.tecnotopia.SimpleCalculator
+```
